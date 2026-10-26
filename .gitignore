@@ -1,0 +1,28 @@
+
+# Local database connection settings
+/config/db.php
+
+# Local secrets
+.env
+.env.*
+
+# Editor settings
+.vscode/
+.idea/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Backups and archives
+*.zip
+*.7z
+*.rar
+*.bak
+*.old
+*.sql.gz
+
+# Local backup folders
+database-backup/
+db-backup/
+backups/

@@ -1,0 +1,837 @@
+/* ==================================================================
+   School Clinic System - main stylesheet
+   Sections:
+     1. Colors and basic setup
+     2. Page layout and sidebar
+     3. Page header and cards
+     4. Tables
+     5. Badges and alert messages
+     6. Forms and buttons
+     6b. Stage 2 additions: tabs, filter bar, action buttons, alerts
+     6c. Stage 4 additions: the Log Clinic Visit form
+     6d. Stage 5 additions: login pages, user box, Group Log
+     7. Small phones and tablets (responsive rules)
+   ================================================================== */
+
+
+/* ------------------------------------------------------------------
+   1. Colors and basic setup
+   The colors are saved as variables here, so the whole system can be
+   re-colored by editing this one block.
+   ------------------------------------------------------------------ */
+:root {
+    --navy: #17365d;          /* sidebar */
+    --blue: #2b5797;          /* highlights, buttons */
+    --blue-dark: #1f4175;     /* button hover */
+    --page-bg: #f4f6f9;
+    --card-bg: #ffffff;
+    --text: #1f2937;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --input-border: #cbd5e1;
+
+    --success-bg: #d1fae5;    --success-text: #065f46;
+    --warning-bg: #fef3c7;    --warning-text: #92400e;
+    --danger-bg:  #fee2e2;    --danger-text:  #991b1b;
+    --neutral-bg: #e2e8f0;    --neutral-text: #334155;
+
+    --radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    background-color: var(--page-bg);
+    color: var(--text);
+}
+
+/* Ordinary text links. Buttons, menu links and tabs set their own colors. */
+a {
+    color: var(--blue);
+}
+
+/* A visible outline when using the keyboard (Tab key). */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+/* "Skip to main content" link: hidden until focused with the keyboard. */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    background: #fff;
+    color: var(--navy);
+    padding: 10px 14px;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    left: 10px;
+    top: 10px;
+}
+
+
+/* ------------------------------------------------------------------
+   2. Page layout and sidebar
+   ------------------------------------------------------------------ */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background-color: var(--navy);
+    color: white;
+    padding: 25px 15px;
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.sidebar p {
+    font-size: 12px;
+    color: #cbd5e1;
+    margin-bottom: 30px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 5px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: var(--blue);
+}
+
+.sidebar a.active {
+    font-weight: bold;
+}
+
+/* min-width: 0 lets wide tables scroll inside the card
+   instead of stretching the whole page. */
+.main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 30px;
+}
+
+
+/* ------------------------------------------------------------------
+   3. Page header and cards
+   ------------------------------------------------------------------ */
+.page-header {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--radius);
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    font-size: 25px;
+    margin-bottom: 6px;
+}
+
+.page-header p {
+    color: var(--muted);
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--radius);
+    border-left: 5px solid var(--blue);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.card .number {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Row of summary cards. "auto-fit" fits as many columns as the screen
+   allows (3 on a desktop, 1 on a phone) without extra rules. */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.dashboard-cards .card {
+    margin-bottom: 0;
+}
+
+.help-text {
+    margin-top: 15px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+
+/* ------------------------------------------------------------------
+   4. Tables
+   Wrap every table in <div class="table-wrap"> so that on a narrow
+   screen the table scrolls sideways inside its card.
+   ------------------------------------------------------------------ */
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 15px;
+}
+
+thead {
+    background-color: #f0f4f8;
+}
+
+th,
+td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    color: var(--navy);
+    font-size: 14px;
+}
+
+td {
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.empty-row {
+    text-align: center;
+    color: var(--muted);
+}
+
+
+/* ------------------------------------------------------------------
+   5. Badges and alert messages
+   ------------------------------------------------------------------ */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.badge-success { background: var(--success-bg); color: var(--success-text); }
+.badge-warning { background: var(--warning-bg); color: var(--warning-text); }
+.badge-danger  { background: var(--danger-bg);  color: var(--danger-text); }
+.badge-neutral { background: var(--neutral-bg); color: var(--neutral-text); }
+
+.alert {
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.alert-success { background: var(--success-bg); color: var(--success-text); }
+.alert-warning { background: var(--warning-bg); color: var(--warning-text); }
+.alert-danger  { background: var(--danger-bg);  color: var(--danger-text); }
+
+
+/* ------------------------------------------------------------------
+   6. Forms and buttons
+   ------------------------------------------------------------------ */
+.form-group {
+    margin-top: 20px;
+}
+
+.form-group > label,
+.form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    font: inherit;
+    background: white;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Checkboxes flow in a wrapping row. */
+.checkbox-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+}
+
+.checkbox-grid label,
+.radio-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal;
+}
+
+.radio-row {
+    display: flex;
+    margin: 10px 0;
+}
+
+/* Keep the "None" option from inheriting the bold form label style. */
+.form-group > .radio-row {
+    font-weight: normal;
+}
+
+/* One box per medicine batch on the visit form. */
+.medicine-option {
+    margin: 15px 0;
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.medicine-option p {
+    margin: 8px 0;
+    color: var(--muted);
+}
+
+.qty-input {
+    width: 90px;
+    padding: 6px 8px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    font: inherit;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--blue-dark);
+}
+
+
+/* ------------------------------------------------------------------
+   6b. Added in Stage 2: tabs, search/filter bar, action buttons,
+       form error list, dashboard alert counts
+   ------------------------------------------------------------------ */
+
+/* Tab bar at the top of the two medicine pages. */
+.tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+}
+
+.tabs a {
+    padding: 10px 16px;
+    text-decoration: none;
+    color: var(--muted);
+    font-weight: bold;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+}
+
+.tabs a:hover {
+    color: var(--navy);
+}
+
+.tabs a.active {
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+}
+
+/* Search and filter bar above a table. */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    margin-top: 10px;
+}
+
+.filter-bar .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filter-bar label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: bold;
+}
+
+.filter-bar .form-control {
+    padding: 9px 10px;
+    width: auto;
+    min-width: 150px;
+}
+
+.filter-bar .grow {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-bar .grow .form-control {
+    width: 100%;
+}
+
+/* Row of buttons at the top of a card. */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-secondary {
+    background-color: #e2e8f0;
+    color: var(--navy);
+}
+
+.btn-secondary:hover {
+    background-color: #cbd5e1;
+}
+
+.btn-danger {
+    background-color: #b91c1c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #991b1b;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* Buttons inside a table row sit side by side. */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.actions form {
+    display: inline;
+}
+
+/* Red box listing what is wrong with a submitted form. */
+.form-errors {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+    padding: 15px 15px 15px 35px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.form-hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+/* Two fields side by side on a wide screen, stacked on a phone. */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0 20px;
+}
+
+/* Dashboard: stock alert counts that link to the filtered inventory. */
+.alert-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 5px;
+}
+
+.alert-count {
+    display: block;
+    min-width: 130px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.alert-count .count {
+    display: block;
+    font-size: 24px;
+}
+
+.alert-count.badge-danger  { background: var(--danger-bg);  color: var(--danger-text); }
+.alert-count.badge-warning { background: var(--warning-bg); color: var(--warning-text); }
+
+.muted {
+    color: var(--muted);
+}
+
+
+/* ------------------------------------------------------------------
+   6c. Added in Stage 4: the Log Clinic Visit form
+   ------------------------------------------------------------------ */
+
+/* The HTML "hidden" attribute must win over any display: rule. */
+[hidden] {
+    display: none !important;
+}
+
+/* Scrollable, searchable list of students (radio buttons). */
+.student-list {
+    max-height: 240px;
+    overflow-y: auto;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    background: white;
+}
+
+.student-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    font-weight: normal;
+}
+
+.student-option:last-child {
+    border-bottom: none;
+}
+
+.student-option:hover {
+    background: #f8fafc;
+}
+
+.student-option input:checked + span {
+    font-weight: bold;
+    color: var(--blue);
+}
+
+/* One medicine row: batch drop-down + quantity + Remove button. */
+.medicine-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fbfcfe;
+}
+
+.row-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--muted);
+}
+
+.row-field.grow {
+    flex: 1;
+    min-width: 220px;
+}
+
+.row-field .qty-input {
+    width: 110px;
+}
+
+.row-hint {
+    font-weight: normal;
+    color: var(--muted);
+}
+
+.form-errors ul {
+    margin: 8px 0 0 20px;
+}
+
+/* ------------------------------------------------------------------
+   6d. Stage 5 additions: login pages, user box, Group Log
+   ------------------------------------------------------------------ */
+
+/* Logged-in user box at the bottom of the sidebar. */
+.user-box {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.user-box span {
+    color: #cbd5e1;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.user-box a {
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.logout-button {
+    width: 100%;
+    margin-top: 4px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    background: transparent;
+    color: white;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.logout-button:hover {
+    background-color: var(--blue);
+}
+
+/* Standalone pages (login, first-time setup): a centered card, no sidebar. */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border-top: 5px solid var(--blue);
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card h1 {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.auth-card .auth-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.auth-card .btn {
+    width: 100%;
+    margin-top: 6px;
+}
+
+/* Label + status badge shown together (e.g. user list). */
+.inline-form {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.inline-form select {
+    padding: 6px 8px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 13px;
+}
+
+/* ---- Group Log (Log Clinic Visit page) ---- */
+
+/* The Individual / Group switch above the form. */
+.mode-switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fbfcfe;
+}
+
+.mode-switch label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.group-counter {
+    font-weight: bold;
+    color: var(--navy);
+}
+
+.group-counter.bad {
+    color: var(--danger-text);
+}
+
+/* One selected student inside the group. */
+.group-student {
+    border: 1px solid var(--input-border);
+    border-left: 5px solid var(--blue);
+    border-radius: 6px;
+    padding: 15px;
+    margin-top: 15px;
+    background: white;
+}
+
+.group-student-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.group-student-head h4 {
+    color: var(--navy);
+    font-size: 16px;
+}
+
+.group-student-head .class-tag {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--neutral-bg);
+    color: var(--neutral-text);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.group-student h5 {
+    margin: 14px 0 8px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* A row in the "pick students for the group" list (like .student-option,
+   but with an Add button instead of a radio button). */
+.group-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.group-option:last-child {
+    border-bottom: none;
+}
+
+.group-option.is-added {
+    background: #f1f5f9;
+    color: var(--muted);
+}
+
+/* ------------------------------------------------------------------
+   7. Small phones and tablets
+   Below 768px wide, the sidebar moves to the top and its links wrap
+   into a row.
+   ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .sidebar p {
+        margin-bottom: 12px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .sidebar a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+}
